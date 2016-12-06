@@ -1,0 +1,108 @@
+Montando um MPI Cluster
+
+1) Congfigure sua rede interna para IPs estáticos
+
+2) Setup do hosts file:
+
+Assumindo que temos um master e um slave, a configuração deve seguir como abaixo
+
+Edite o arquivo /etc/hosts em ambos computadores
+
+sudo vim /etc/hosts
+
+127.0.0.1     localhost
+192.168.0.100 master
+192.168.0.101 slave
+
+3) Instalando NFS Server (Compartilhar os arquivos e configs no cluster)
+
+sudo apt-get install nfs-kerner-server 
+
+4) No Master, exporte a pasta do usuário e/ou a pasta de recursos do cluster
+
+Edite o arquivo:
+
+sudo vim /etc/exports
+
+Inclua as linha de acordo com sua necessidade (ver documentação do NFS para mais opções)
+
+# Exporta pasta home completa do usuário
+/home      	*(rw,sync,no_subtree_check)
+
+# Exporta uma pasta para abrigar os recursos do cluster
+/srv/data	*(rw,sync,no_subtree_check)
+
+No Slave, adicione as linhas no arquivo /etc/fstab para montagem automática no boot
+
+sudo vim /etc/fstab
+
+# Descrição dos comandos abaixo
+#origem			monta em:	filesystem
+master:/home    	/home    	nfs
+master:/srv/data   	/srv/data    	nfs
+
+Monte as pastas remotas localmente em casa Slave (em caso de mais de um)
+
+sudo mount -a
+
+5) Crie um usuário para rodar os jobs e programas no cluster
+
+/!\ Importante: O usuário deve ter o mesmo UID e GID em todos os nós
+
+6) Dê as permissões corretas para a pasta de recursos do cluster, caso possua:
+
+# Para um usuário chamado mpi
+sudo chown mpi /srv/data
+
+7) Instale o Servidor SSH
+
+sudo apt-get install openssh-server
+
+8) Como usuário do cluster, crie um par de chaves RSA para login sem senha
+
+su mpi
+
+cd ~
+
+ssh-keygen -t rsa
+
+(Siga as instruções na tela e quando for solicitado password, deixe em branco)
+
+9) Adicionando arquivos de identidade (chave pública) e autorizando o usuário
+
+# A permissão deve ser somente do usuário:
+mpi@master:~$ chmod 700 .ssh
+
+mpi@master:~$ cd .ssh
+
+# Copia a identidade para o arquivo de autorização
+mpi@master:~$ cat id_rsa.pub >> authorized_keys
+
+10) Teste a configuração do ssh:
+
+ssh mpi@master
+ssh mpi@slave
+
+11) Instale o MPI em todos os nós:
+
+sudo apt-get install mpich2
+
+12) No master node, crie um machinefile contendo os nós e a quantidade de recursos de cada nó
+
+vim machines
+
+Inclua as linhas abaixo conforme sua necessidade
+
+master:3	# Indica que o Master node possui 3 processadores
+slave:1		# Indica que o Slave node possui 1 processador
+
+13) Rode um comando (mesmo não paralelizado) para testar a configuração
+
+# Rode 60 instâncias nas máquinas abaixo o comando seq e jogue a saída para null
+mpirun -np 60 -f machinefile seq 0 100000000000 >> /dev/null
+
+FEITO!
+
+Fonte principal:
+https://help.ubuntu.com/community/MpichCluster
+
