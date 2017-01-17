@@ -1,0 +1,23 @@
+# Gerenciado por Puppet Master
+
+127.0.0.1       localhost
+
+# The puppet master
+# You may change the names as you wish. 
+# The recommendation is to leave at least the 'puppet' name
+1.2.3.1        puppetmaster.fqdn.local    puppetmaster
+1.2.3.1        puppet
+
+# The cluster Nodes
+1.2.3.100     master.fqdn.local     master
+1.2.3.101     slave1.fqdn.local     slave1
+
+# The data control network - For files only
+
+4.3.2.100      masterhd
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
