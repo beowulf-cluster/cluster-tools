@@ -34,6 +34,7 @@ $username = $title
         path => "/usr/bin:/bin",
         cwd => "/home/$username/.ssh",
         creates => "/home/$username/.ssh/authorized_keys",
+        onlyif => "test -e $cwd/id_rsa.pub",
     }
      
     # ===================================
