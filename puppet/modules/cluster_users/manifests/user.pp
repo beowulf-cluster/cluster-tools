@@ -7,19 +7,24 @@ class cluster_users::user {
     
     # Put here your username
     $create_user = "user"
+    $presence   = 'present'
+
 
     macro_useradd { "$create_user" :
         real_name => "John Doe",
         password => 'secret!',
-        presence => 'present',
-#       presence => 'absent',
+        presence => "$presence",
     }
 
 # Configured in parent
     if $cluster_users::cluster_key == 'true' {
         $log_message = "Deploying keys for new user..."
 
-        ssh_deploy { "$create_user" : }
+        # Deploys only if present
+        if $presence == 'present' {
+
+            ssh_deploy { "$create_user" : }
+        }
     }
 
 
