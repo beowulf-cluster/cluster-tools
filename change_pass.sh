@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script is intended for being used with puppet for password generation.
+# This script is intended for being used with puppet for Shadow type password generation.
 #
 # This script depends on the package "whois", which gives the 'mkpasswd' tool
 
