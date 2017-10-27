@@ -14,7 +14,7 @@
 
 # The data control network - For files only
 
-4.3.2.100      masterhd
+4.3.2.100      my_nfs_server
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback

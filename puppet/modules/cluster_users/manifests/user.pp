@@ -32,6 +32,6 @@ class cluster_users::user {
     #notice($log_message)
 
     # Notify Client
-    #notify{"debugou":
+    # notify{"debugou":
 
 }

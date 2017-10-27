@@ -30,5 +30,5 @@ mpiexec -n 100 -f .machines seq 0 1000000000000000000000 > /dev/null
 
 ETime=$(date +%s)
 
-echo "Elapsed time: $(($ETime - $STime)) segundos" > job_time.log
+echo "Elapsed time: $(($ETime - $STime)) seconds" > job_time.log
 
