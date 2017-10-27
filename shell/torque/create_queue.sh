@@ -3,10 +3,12 @@
 # ==================================================================
 # This script sets up a default queue for the Torque Resource Manager.
 # Since I don't want unpackaged installs, I used Ubuntu default repository package. 
-# The commands described here may work with later versions of torque since the examples were taken from the latest version of documentation.
+# The commands described here may work with later versions of torque since the examples were 
+# taken from the latest version of documentation.
 # ==================================================================
 
-# Torque is a very complete solution, so some basic configuration is needed to put it to work. You MUST create a queue even if you intend to use it as a simple serial job manager
+# Torque is a very complete solution, so some basic configuration is needed to put it to work. 
+# You MUST create a queue even if you intend to use it as a simple serial job manager
 
 # Name your queue here
 my_queue="cluster_queue"
